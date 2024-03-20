@@ -6,7 +6,6 @@ import '@spectrum-web-components/textfield/sp-textfield.js';
 import '@spectrum-web-components/number-field/sp-number-field.js';
 import '@spectrum-web-components/search/sp-search.js';
 
-
 let nextDebugId = 0;
   
   export class SubtreeWatcher {
@@ -270,6 +269,15 @@ let nextDebugId = 0;
               watcher.start();
           };
   }
+
+  function updatePatchHeading() {
+    const textfield = document.querySelector("sp-textfield");
+    const inputEl = textfield.shadowRoot.querySelector("input");
+    const isPatchedVersion = inputEl.getAttribute("data-test-id") === "patched" ? true : false;
+
+    const heading = document.querySelector("h1");
+    heading.textContent = `${heading.textContent} ${isPatchedVersion? "(Patched)" : "(without patch)" }`;
+}
   
   // For each sample on the page, inject a subtree-view controller.
   // We need to wait for some time after document load to give any samples
@@ -277,6 +285,8 @@ let nextDebugId = 0;
   
   self.addEventListener("load", function() {
       setTimeout(function() {
+      updatePatchHeading();
+
           document.querySelectorAll(".sample").forEach(function(sample) {
                   let controllerContainer = document.createElement("div");
                   controllerContainer.className = "subtree-view-controller";
