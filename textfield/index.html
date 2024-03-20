@@ -63,7 +63,16 @@
   <body cz-shortcut-listen="true" data-new-gr-c-s-check-loaded="14.1159.0" data-gr-ext-installed="">
      
   <h1>Textfield example (Patched)</h1>
+  <p>Some of our panel subtrees are being retained (never garbage-collected) in Safari due to the use of input elements. If an input element is wrapped with a form element, the form element will also be retained.</p>
+  <p>This Safari input element retainer issue can be triggered by simply giving the input element focus at least once before removing the DOM subtree that contains it.</p>
+  <h3>Instructions:</h3>
+  <p>Click on a sample's corresponding Remove button. If the entire sample DOM sub-tree is garbage collected the DOM subtree hierarchy view for that sample should turn green. If only parts of the subtree are garbage-collected, they will turn red.
+    If nothing happens, you try pressing the "Unparent Children" button which breaks the parent/child references of all of the nodes in the sample subtree. In theory, this should only leave nodes that are retained un-garbage-collected.</p>
+  <p>  You can attempt to trigger a garbage-collection at anytime by executing the following command in a terminal:
+    <code>notifyutil -p org.WebKit.lowMemory</code></p>
 
+<h3>This example uses <code>sp-textfield</code> and applies a patch to <code>TextfieldBase</code> to minimize the impact of the retained items down the tree.</h3>
+  
       <sp-theme color="light" scale="medium">
       <h3>Control Sample</h3>
       <div id="control-sample" class="sample">
