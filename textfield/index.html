@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html><head>
+  <title>Textfield example (Patched)</title>
+  <style>
+  body {
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+  }
+  
+  button {
+      border-radius: 8px;
+      padding: .5em 1em;
+      background-color: black;
+      color: white;
+  }
+  
+  button:disabled {
+      opacity: .25;
+  }
+  
+  .sample {
+      border: solid 1px black;
+      padding: 1em;
+  }
+  
+  .subtree-view-controller {
+      margin: 1em;
+  }
+  
+  .subtree-view {
+      margin: 1em 0;
+      border: solid 1px black;
+  }
+  
+  .subtree-view.garbage-collected .entry {
+      background-color: green;
+      color: white;
+  }
+  
+  .subtree-view .entry {
+      padding: 0 1em;
+  }
+  
+  .subtree-view :first-child {
+      padding-top: 1em;
+  }
+  
+  .subtree-view :last-child {
+      padding-bottom: 1em;
+  }
+  
+  .subtree-view .garbage-collected {
+      background-color: #ffa2a4;
+  }
+  
+  .sample {
+      border: dotted 2px black;
+  }
+  
+  </style>
+   <script type="module" src="../index.js"></script>
+  </head>
+  <body cz-shortcut-listen="true" data-new-gr-c-s-check-loaded="14.1159.0" data-gr-ext-installed="">
+     
+  <h1>Textfield example (Patched)</h1>
+
+      <sp-theme color="light" scale="medium">
+      <h3>Control Sample</h3>
+      <div id="control-sample" class="sample">
+          <div><div></div></div>
+      </div>
+      <div class="subtree-view-controller"></div>
+  
+      <h3>Textfield No Form (Patched)</h3>
+      <div id="no-form-sample" class="sample">
+          <div><div><sp-textfield placeholder="Search"></sp-textfield></div></div>
+      </div>
+      <div class="subtree-view-controller"></div>
+      
+      <h3>Autocomplete Textfield No Form (Patched)</h3>
+      <div id="no-form-sample" class="sample">
+          <div><div><sp-textfield autocomplete="on" placeholder="Search"></sp-textfield></div></div>
+      </div>
+      <div class="subtree-view-controller"></div>
+  
+      <h3>Textfield With Form (Patched)</h3>
+      <div id="form-sample" class="sample">
+          <form><div><div><sp-textfield placeholder="Search"></sp-textfield></div></div></form>
+      </div>
+      <div class="subtree-view-controller"></div>
+  
+      <h3>Autocomplete Textfield With Form (Patched)</h3>
+      <div id="form-sample" class="sample">
+          <form><div><div><sp-textfield autocomplete="on" placeholder="Search"></sp-textfield></div></div></form>
+      </div>
+      <div class="subtree-view-controller"></div>
+  </sp-theme>
+
+  </body></html>
