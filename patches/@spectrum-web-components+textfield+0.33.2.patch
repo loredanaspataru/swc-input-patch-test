@@ -1,5 +1,5 @@
 diff --git a/node_modules/@spectrum-web-components/textfield/src/Textfield.dev.js b/node_modules/@spectrum-web-components/textfield/src/Textfield.dev.js
-index 38104d5..091af81 100644
+index 38104d5..f3a4efb 100644
 --- a/node_modules/@spectrum-web-components/textfield/src/Textfield.dev.js
 +++ b/node_modules/@spectrum-web-components/textfield/src/Textfield.dev.js
 @@ -29,10 +29,12 @@ import "@spectrum-web-components/icons-ui/icons/sp-icon-checkmark100.js";
@@ -125,16 +125,17 @@ index 38104d5..091af81 100644
    renderStateIcons() {
      if (this.invalid) {
        return html`
-@@ -178,6 +269,32 @@ export class TextfieldBase extends ManageHelpText(Focusable) {
+@@ -178,9 +269,37 @@ export class TextfieldBase extends ManageHelpText(Focusable) {
          `;
    }
    get renderInput() {
 +    if (isWebKit()) {
 +      return html`
 +        <!-- @ts-ignore -->
-+        <div id="form-container" class="input">
-+          <form id="formWrapper" class="input">
++        <div id="form-container">
++          <form id="formWrapper">
 +            <input
++                data-test-id="patched"
 +                type=${this.type}
 +                aria-describedby=${this.helpTextId}
 +                aria-label=${this.label || this.placeholder}
@@ -158,7 +159,11 @@ index 38104d5..091af81 100644
      return html`
              <!-- @ts-ignore -->
              <input
-@@ -214,7 +331,7 @@ export class TextfieldBase extends ManageHelpText(Focusable) {
++                data-test-id="patched"
+                 type=${this.type}
+                 aria-describedby=${this.helpTextId}
+                 aria-label=${this.label || this.placeholder}
+@@ -214,7 +333,7 @@ export class TextfieldBase extends ManageHelpText(Focusable) {
    }
    render() {
      return html`
@@ -167,7 +172,7 @@ index 38104d5..091af81 100644
              ${this.renderHelpText(this.invalid)}
          `;
    }
-@@ -242,6 +359,9 @@ export class TextfieldBase extends ManageHelpText(Focusable) {
+@@ -242,6 +361,9 @@ export class TextfieldBase extends ManageHelpText(Focusable) {
      return validity;
    }
  }
@@ -177,7 +182,7 @@ index 38104d5..091af81 100644
  __decorateClass([
    property({ attribute: "allowed-keys" })
  ], TextfieldBase.prototype, "allowedKeys", 2);
-@@ -249,7 +369,7 @@ __decorateClass([
+@@ -249,7 +371,7 @@ __decorateClass([
    property({ type: Boolean, reflect: true })
  ], TextfieldBase.prototype, "focused", 2);
  __decorateClass([
