@@ -9,15 +9,18 @@
   "module": "index.js",
   "scripts": {
     "start": "web-dev-server --open textfield/ --node-resolve",
-    "build": "web-dev-server --node-resolve",
     "start:watch": "web-dev-server --open textfield/ --node-resolve --watch",
     "postinstall": "patch-package"
   },
   "dependencies": {
-    "@spectrum-web-components/number-field": "0.33.2",
-    "@spectrum-web-components/search": "0.33.2",
-    "@spectrum-web-components/textfield": "0.33.2",
-    "@spectrum-web-components/theme": "0.33.2",
+    "@spectrum-web-components/checkbox": "0.35.0",
+    "@spectrum-web-components/number-field": "0.35.0",
+    "@spectrum-web-components/radio": "0.35.0",
+    "@spectrum-web-components/search": "0.35.0",
+    "@spectrum-web-components/slider": "0.35.0",
+    "@spectrum-web-components/switch": "0.35.0",
+    "@spectrum-web-components/textfield": "0.35.0",
+    "@spectrum-web-components/theme": "0.35.0",
     "lit": "2.7.4"
   },
   "devDependencies": {

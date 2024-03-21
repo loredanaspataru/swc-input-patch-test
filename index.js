@@ -5,6 +5,10 @@ import '@spectrum-web-components/theme/scale-medium.js';
 import '@spectrum-web-components/textfield/sp-textfield.js';
 import '@spectrum-web-components/number-field/sp-number-field.js';
 import '@spectrum-web-components/search/sp-search.js';
+import "@spectrum-web-components/checkbox/sp-checkbox.js";
+import "@spectrum-web-components/radio/sp-radio.js";
+import "@spectrum-web-components/slider/sp-slider.js";
+import "@spectrum-web-components/switch/sp-switch.js";
 
 let nextDebugId = 0;
   
