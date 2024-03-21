@@ -276,8 +276,8 @@ let nextDebugId = 0;
 
   function updatePatchHeading() {
     const textfield = document.querySelector("sp-textfield");
-    const inputEl = textfield.shadowRoot.querySelector("input");
-    const isPatchedVersion = inputEl.getAttribute("data-test-id") === "patched" ? true : false;
+    const inputEl = textfield?.shadowRoot?.querySelector("input");
+    const isPatchedVersion = inputEl?.getAttribute("data-test-id") === "patched" ? true : false;
 
     const heading = document.querySelector("h1");
     heading.textContent = `${heading.textContent} ${isPatchedVersion? "(Patched)" : "(without patch)" }`;

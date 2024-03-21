@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Switch example</title>
+    <link rel="stylesheet" href="/styles/style.css">
+    <script type="module" src="../index.js"></script>
+</head>
+
+<body>
+
+    <h1>Switch example </h1>
+    <p>Some of our panel subtrees are being retained (never garbage-collected) in Safari due to the use of input
+        elements. If an input element is wrapped with a form element, the form element will also be retained.</p>
+    <p>This Safari input element retainer issue can be triggered by simply giving the input element focus at least once
+        before removing the DOM subtree that contains it.</p>
+    <h3>Instructions:</h3>
+    <p>Click on a sample's corresponding Remove button. If the entire sample DOM sub-tree is garbage collected the DOM
+        subtree hierarchy view for that sample should turn green. If only parts of the subtree are garbage-collected,
+        they will turn red.
+        If nothing happens, you try pressing the "Unparent Children" button which breaks the parent/child references of
+        all of the nodes in the sample subtree. In theory, this should only leave nodes that are retained
+        un-garbage-collected.</p>
+    <p> You can attempt to trigger a garbage-collection at anytime by executing the following command in a terminal:
+        <code>notifyutil -p org.WebKit.lowMemory</code>
+    </p>
+
+    <h3>This example uses <code>sp-switch</code> which extends <code>CheckboxBase</code> class.</h3>
+
+    <sp-theme color="light" scale="medium">
+        <h3>Control Sample</h3>
+        <div id="control-sample" class="sample">
+            <div>
+                <div></div>
+            </div>
+        </div>
+        <div class="subtree-view-controller"></div>
+
+        <h3>Textfield No Form</h3>
+        <div id="no-form-sample" class="sample">
+            <div>
+                <div><sp-switch label="Switch">Switch</sp-switch></div>
+            </div>
+        </div>
+        <div class="subtree-view-controller"></div>
+
+        <h3>Autocomplete Textfield No Form</h3>
+        <div id="no-form-sample" class="sample">
+            <div>
+                <div><sp-switch label="Switch">Switch</sp-switch></div>
+            </div>
+        </div>
+        <div class="subtree-view-controller"></div>
+
+        <h3>Textfield With Form</h3>
+        <div id="form-sample" class="sample">
+            <form>
+                <div>
+                    <div><sp-switch label="Switch">Switch</sp-switch></div>
+                </div>
+            </form>
+        </div>
+        <div class="subtree-view-controller"></div>
+
+        <h3>Autocomplete Textfield With Form</h3>
+        <div id="form-sample" class="sample">
+            <form>
+                <div>
+                    <div><sp-switch label="Switch">Switch</sp-switch></div>
+                </div>
+            </form>
+        </div>
+        <div class="subtree-view-controller"></div>
+    </sp-theme>
+
+</body>
+</html>
