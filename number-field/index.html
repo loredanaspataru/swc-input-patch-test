@@ -1,108 +1,78 @@
 <!DOCTYPE html>
-<html><head>
-  <title>Number field example</title>
-  <style>
-  body {
-      font-family: Arial, sans-serif;
-      font-size: 12px;
-  }
-  
-  button {
-      border-radius: 8px;
-      padding: .5em 1em;
-      background-color: black;
-      color: white;
-  }
-  
-  button:disabled {
-      opacity: .25;
-  }
-  
-  .sample {
-      border: solid 1px black;
-      padding: 1em;
-  }
-  
-  .subtree-view-controller {
-      margin: 1em;
-  }
-  
-  .subtree-view {
-      margin: 1em 0;
-      border: solid 1px black;
-  }
-  
-  .subtree-view.garbage-collected .entry {
-      background-color: green;
-      color: white;
-  }
-  
-  .subtree-view .entry {
-      padding: 0 1em;
-  }
-  
-  .subtree-view :first-child {
-      padding-top: 1em;
-  }
-  
-  .subtree-view :last-child {
-      padding-bottom: 1em;
-  }
-  
-  .subtree-view .garbage-collected {
-      background-color: #ffa2a4;
-  }
-  
-  .sample {
-      border: dotted 2px black;
-  }
-  
-  </style>
-   <script type="module" src="../index.js"></script>
-  </head>
-  <body cz-shortcut-listen="true" data-new-gr-c-s-check-loaded="14.1159.0" data-gr-ext-installed="">
-     
-  <h1>Number field example</h1>
-  <p>Some of our panel subtrees are being retained (never garbage-collected) in Safari due to the use of input elements. If an input element is wrapped with a form element, the form element will also be retained.</p>
-  <p>This Safari input element retainer issue can be triggered by simply giving the input element focus at least once before removing the DOM subtree that contains it.</p>
-  <h3>Instructions:</h3>
-  <p>Click on a sample's corresponding Remove button. If the entire sample DOM sub-tree is garbage collected the DOM subtree hierarchy view for that sample should turn green. If only parts of the subtree are garbage-collected, they will turn red.
-    If nothing happens, you try pressing the "Unparent Children" button which breaks the parent/child references of all of the nodes in the sample subtree. In theory, this should only leave nodes that are retained un-garbage-collected.</p>
-  <p>  You can attempt to trigger a garbage-collection at anytime by executing the following command in a terminal:
-    <code>notifyutil -p org.WebKit.lowMemory</code></p>
+<html>
 
-<h3>This example uses <code>sp-number-field</code> with a patch being applied to <code>TextfieldBase</code> its base class, to minimize the impact of the retained items down the tree.</h3>
+<head>
+    <title>Number field example</title>
+    <link rel="stylesheet" href="/styles/style.css">
+    <script type="module" src="../index.js"></script>
+</head>
 
-      <sp-theme color="light" scale="medium">
-      <h3>Control Sample</h3>
-      <div id="control-sample" class="sample">
-          <div><div></div></div>
-      </div>
-      <div class="subtree-view-controller"></div>
-  
-      <h3>Input No Form Sample</h3>
-      <div id="no-form-sample" class="sample">
-          <div><div><sp-number-field label="Size" value="100"></sp-number-field></div></div>
-      </div>
-      <div class="subtree-view-controller"></div>
-      
-      <h3>Autocomplete Input No Form Sample</h3>
-      <div id="no-form-sample" class="sample">
-          <div><div><sp-number-field autocomplete="on" label="Size" value="100"></sp-number-field></div></div>
-      </div>
-      <div class="subtree-view-controller"></div>
-  
-      <h3>Input With Form Sample</h3>
-      <div id="form-sample" class="sample">
-          <form><div><div><sp-number-field label="Size" value="100"></sp-number-field></div></div></form>
-      </div>
-      <div class="subtree-view-controller"></div>
-  
-      <h3>Autocomplete Input With Form Sample</h3>
-      <div id="form-sample" class="sample">
-          <form><div><div><sp-number-field autocomplete="on" label="Size" value="100"></sp-number-field></div></div></form>
-      </div>
-      <div class="subtree-view-controller"></div>
-  </sp-theme>
+<body>
 
-  </body></html>
+    <h1>Number field example</h1>
+    <p>Some of our panel subtrees are being retained (never garbage-collected) in Safari due to the use of input
+        elements. If an input element is wrapped with a form element, the form element will also be retained.</p>
+    <p>This Safari input element retainer issue can be triggered by simply giving the input element focus at least once
+        before removing the DOM subtree that contains it.</p>
+    <h3>Instructions:</h3>
+    <p>Click on a sample's corresponding Remove button. If the entire sample DOM sub-tree is garbage collected the DOM
+        subtree hierarchy view for that sample should turn green. If only parts of the subtree are garbage-collected,
+        they will turn red.
+        If nothing happens, you try pressing the "Unparent Children" button which breaks the parent/child references of
+        all of the nodes in the sample subtree. In theory, this should only leave nodes that are retained
+        un-garbage-collected.</p>
+    <p> You can attempt to trigger a garbage-collection at anytime by executing the following command in a terminal:
+        <code>notifyutil -p org.WebKit.lowMemory</code>
+    </p>
+
+    <h3>This example uses <code>sp-number-field</code> with a patch being applied to <code>TextfieldBase</code> its base
+        class, to minimize the impact of the retained items down the tree.</h3>
+
+    <sp-theme color="light" scale="medium">
+        <h3>Control Sample</h3>
+        <div id="control-sample" class="sample">
+            <div>
+                <div></div>
+            </div>
+        </div>
+        <div class="subtree-view-controller"></div>
+
+        <h3>Input No Form Sample</h3>
+        <div id="no-form-sample" class="sample">
+            <div>
+                <div><sp-number-field label="Size" value="100"></sp-number-field></div>
+            </div>
+        </div>
+        <div class="subtree-view-controller"></div>
+
+        <h3>Autocomplete Input No Form Sample</h3>
+        <div id="no-form-sample" class="sample">
+            <div>
+                <div><sp-number-field autocomplete="on" label="Size" value="100"></sp-number-field></div>
+            </div>
+        </div>
+        <div class="subtree-view-controller"></div>
+
+        <h3>Input With Form Sample</h3>
+        <div id="form-sample" class="sample">
+            <form>
+                <div>
+                    <div><sp-number-field label="Size" value="100"></sp-number-field></div>
+                </div>
+            </form>
+        </div>
+        <div class="subtree-view-controller"></div>
+
+        <h3>Autocomplete Input With Form Sample</h3>
+        <div id="form-sample" class="sample">
+            <form>
+                <div>
+                    <div><sp-number-field autocomplete="on" label="Size" value="100"></sp-number-field></div>
+                </div>
+            </form>
+        </div>
+        <div class="subtree-view-controller"></div>
+    </sp-theme>
+
+</body>
+</html>

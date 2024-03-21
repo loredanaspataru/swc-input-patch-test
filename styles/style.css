@@ -1,0 +1,59 @@
+body {
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+}
+
+button {
+  border-radius: 8px;
+  padding: 0.5em 1em;
+  background-color: black;
+  color: white;
+}
+
+button:disabled {
+  opacity: 0.25;
+}
+
+.sample {
+  border: solid 1px black;
+  padding: 1em;
+}
+
+.subtree-view-controller {
+  margin: 1em;
+}
+
+.subtree-view {
+  margin: 1em 0;
+  border: solid 1px black;
+}
+
+.subtree-view.garbage-collected .entry {
+  background-color: green;
+  color: white;
+}
+
+.subtree-view .entry {
+  padding: 0 1em;
+}
+
+.subtree-view :first-child {
+  padding-top: 1em;
+}
+
+.subtree-view :last-child {
+  padding-bottom: 1em;
+}
+
+.subtree-view .garbage-collected {
+  background-color: #ffa2a4;
+}
+
+.sample {
+  border: dotted 2px black;
+}
+
+a,
+.divider {
+  font-size: 24px;
+}
