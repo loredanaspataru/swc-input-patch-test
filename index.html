@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Safari input memory leak</title>
+  <link rel="stylesheet" href="/styles/style.css">
+</head>
+
+<body>
+
+  <h1>Safari input memory leak in SWC components</h1>
+  <p>This is an sample project to investigate Safari memory leak for input elements.</p>
+  <p> The issue is that a significant number of detached DOM subtrees are not getting garbage collected because of the
+    input elements in the tree.</p>
+  <hr>
+  <p>Click the corresponding link to check out the samples using different SWC input components:</p>
+  <a href="/textfield">Textfield</a><span class="divider"> | </span>
+  <a href="/number-field">Number field</a><span class="divider"> | </span>
+  <a href="/search">Search</a>
+
+</body>
+</html>
