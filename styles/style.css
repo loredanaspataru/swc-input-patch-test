@@ -53,7 +53,15 @@ button:disabled {
   border: dotted 2px black;
 }
 
-a,
-.divider {
-  font-size: 24px;
+.links-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-left: 6px solid #ddd;
+  padding: 12px;
+  width: 400px;
+}
+
+.links-container a {
+  font-size: 18px;
 }
