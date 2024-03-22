@@ -25,20 +25,22 @@
         <code>notifyutil -p org.WebKit.lowMemory</code>
     </p>
 
-    <p class="notes">❗️This example uses <code>sp-textfield</code> and applies a patch to <code>TextfieldBase</code> to minimize the
+    <p class="notes">❗️This example uses <code>sp-textfield</code> and applies a patch to <code>TextfieldBase</code> to
+        minimize the
         impact of the retained items down the tree.</p>
 
-    <sp-theme color="light" scale="medium">
-        <h3>Control Sample</h3>
-        <div id="control-sample" class="sample">
-            <div>
-                <div></div>
-            </div>
-        </div>
-        <div class="subtree-view-controller"></div>
 
+    <h3>Control Sample</h3>
+    <div id="control-sample" class="sample">
+        <div>
+            <div></div>
+        </div>
+    </div>
+    <div class="subtree-view-controller"></div>
+
+    <sp-theme color="light" scale="medium">
         <h3>Textfield No Form</h3>
-        <div id="no-form-sample" class="sample">
+        <div class="sample">
             <div>
                 <div><sp-textfield placeholder="Search"></sp-textfield></div>
             </div>
@@ -46,7 +48,7 @@
         <div class="subtree-view-controller"></div>
 
         <h3>Autocomplete Textfield No Form</h3>
-        <div id="no-form-sample" class="sample">
+        <div class="sample">
             <div>
                 <div><sp-textfield autocomplete="on" placeholder="Search"></sp-textfield></div>
             </div>
@@ -54,7 +56,7 @@
         <div class="subtree-view-controller"></div>
 
         <h3>Textfield With Form</h3>
-        <div id="form-sample" class="sample">
+        <div class="sample">
             <form>
                 <div>
                     <div><sp-textfield placeholder="Search"></sp-textfield></div>
@@ -64,7 +66,7 @@
         <div class="subtree-view-controller"></div>
 
         <h3>Autocomplete Textfield With Form</h3>
-        <div id="form-sample" class="sample">
+        <div class="sample">
             <form>
                 <div>
                     <div><sp-textfield autocomplete="on" placeholder="Search"></sp-textfield></div>
@@ -75,4 +77,5 @@
     </sp-theme>
 
 </body>
+
 </html>
