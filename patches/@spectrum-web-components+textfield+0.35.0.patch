@@ -1,35 +1,38 @@
 diff --git a/node_modules/@spectrum-web-components/textfield/src/Textfield.dev.js b/node_modules/@spectrum-web-components/textfield/src/Textfield.dev.js
-index 38104d5..f3a4efb 100644
+index 6cdfaba..a3f08cb 100644
 --- a/node_modules/@spectrum-web-components/textfield/src/Textfield.dev.js
 +++ b/node_modules/@spectrum-web-components/textfield/src/Textfield.dev.js
-@@ -29,10 +29,12 @@ import "@spectrum-web-components/icons-ui/icons/sp-icon-checkmark100.js";
+@@ -30,6 +30,7 @@ import "@spectrum-web-components/icons-ui/icons/sp-icon-checkmark100.js";
  import "@spectrum-web-components/icons-workflow/icons/sp-icon-alert.js";
  import textfieldStyles from "./textfield.css.js";
  import checkmarkStyles from "@spectrum-web-components/icon/src/spectrum-icon-checkmark.css.js";
 +import { isWebKit } from "@spectrum-web-components/shared";
  const textfieldTypes = ["text", "url", "tel", "email", "password"];
- export class TextfieldBase extends ManageHelpText(Focusable) {
+ export class TextfieldBase extends ManageHelpText(
+   SizedMixin(Focusable, {
+@@ -38,6 +39,7 @@ export class TextfieldBase extends ManageHelpText(
+ ) {
    constructor() {
      super(...arguments);
 +    this._firstUpdateAfterConnected = true;
      this.allowedKeys = "";
      this.focused = false;
      this.invalid = false;
-@@ -48,6 +50,13 @@ export class TextfieldBase extends ManageHelpText(Focusable) {
+@@ -54,6 +56,13 @@ export class TextfieldBase extends ManageHelpText(
      this._value = "";
      this.quiet = false;
      this.required = false;
 +    this._eventHandlers = {
-+            input: this.handleInput.bind(this),
-+            change: this.handleChange.bind(this),
-+            focus: this.onFocus.bind(this),
-+            blur: this.onBlur.bind(this),
-+            submit: this.handleInputSubmit.bind(this)
-+          };
++      input: this.handleInput.bind(this),
++      change: this.handleChange.bind(this),
++      focus: this.onFocus.bind(this),
++      blur: this.onBlur.bind(this),
++      submit: this.handleInputSubmit.bind(this)
++    };
    }
    static get styles() {
      return [textfieldStyles, checkmarkStyles];
-@@ -73,6 +82,10 @@ export class TextfieldBase extends ManageHelpText(Focusable) {
+@@ -79,6 +88,10 @@ export class TextfieldBase extends ManageHelpText(
      return this._value;
    }
    get focusElement() {
@@ -40,7 +43,7 @@ index 38104d5..f3a4efb 100644
      return this.inputElement;
    }
    /**
-@@ -128,6 +141,84 @@ export class TextfieldBase extends ManageHelpText(Focusable) {
+@@ -134,6 +147,84 @@ export class TextfieldBase extends ManageHelpText(
    onBlur() {
      this.focused = !this.readonly && false;
    }
@@ -125,15 +128,15 @@ index 38104d5..f3a4efb 100644
    renderStateIcons() {
      if (this.invalid) {
        return html`
-@@ -178,9 +269,37 @@ export class TextfieldBase extends ManageHelpText(Focusable) {
+@@ -188,9 +279,37 @@ export class TextfieldBase extends ManageHelpText(
          `;
    }
    get renderInput() {
 +    if (isWebKit()) {
 +      return html`
 +        <!-- @ts-ignore -->
-+        <div id="form-container">
-+          <form id="formWrapper">
++        <div id="form-container" class="input">
++          <form id="formWrapper" class="input">
 +            <input
 +                data-test-id="patched"
 +                type=${this.type}
@@ -162,32 +165,24 @@ index 38104d5..f3a4efb 100644
 +                data-test-id="patched"
                  type=${this.type}
                  aria-describedby=${this.helpTextId}
-                 aria-label=${this.label || this.placeholder}
-@@ -214,7 +333,7 @@ export class TextfieldBase extends ManageHelpText(Focusable) {
-   }
-   render() {
-     return html`
--            <div id="textfield">${this.renderField()}</div>
-+            <div id="textfield" data-test-id="patched">${this.renderField()}</div>
-             ${this.renderHelpText(this.invalid)}
-         `;
-   }
-@@ -242,6 +361,9 @@ export class TextfieldBase extends ManageHelpText(Focusable) {
+                 aria-label=${this.label || this.appliedLabel || this.placeholder}
+@@ -253,6 +372,10 @@ export class TextfieldBase extends ManageHelpText(
      return validity;
    }
  }
++
 +__decorateClass([
-+    query("#formWrapper")
-+  ], TextfieldBase.prototype, "formElement", 2);
++  query("#formWrapper")
++], TextfieldBase.prototype, "formElement", 2);
  __decorateClass([
-   property({ attribute: "allowed-keys" })
- ], TextfieldBase.prototype, "allowedKeys", 2);
-@@ -249,7 +371,7 @@ __decorateClass([
+   state()
+ ], TextfieldBase.prototype, "appliedLabel", 2);
+@@ -263,7 +386,7 @@ __decorateClass([
    property({ type: Boolean, reflect: true })
  ], TextfieldBase.prototype, "focused", 2);
  __decorateClass([
--  query(".input")
-+  query("input, input.input, textarea.input")
+-  query(".input:not(#sizer)")
++  query("input, input.input:not(#sizer), textarea.input:not(#sizer)")
  ], TextfieldBase.prototype, "inputElement", 2);
  __decorateClass([
    property({ type: Boolean, reflect: true })
