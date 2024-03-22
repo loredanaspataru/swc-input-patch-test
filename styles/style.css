@@ -1,6 +1,6 @@
 body {
   font-family: Arial, sans-serif;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 button {
@@ -62,6 +62,7 @@ button:disabled {
   width: 400px;
 }
 
-.links-container a {
-  font-size: 18px;
+.links-container a,
+.notes {
+  font-size: 16px;
 }
