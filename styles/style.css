@@ -66,3 +66,8 @@ button:disabled {
 .notes {
   font-size: 16px;
 }
+
+.results {
+  display: inline-block;
+  margin-left: 50px;
+}
