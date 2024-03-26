@@ -1,24 +1,8 @@
 diff --git a/node_modules/@spectrum-web-components/textfield/src/Textfield.dev.js b/node_modules/@spectrum-web-components/textfield/src/Textfield.dev.js
-index 6cdfaba..a3f08cb 100644
+index 6cdfaba..f88f500 100644
 --- a/node_modules/@spectrum-web-components/textfield/src/Textfield.dev.js
 +++ b/node_modules/@spectrum-web-components/textfield/src/Textfield.dev.js
-@@ -30,6 +30,7 @@ import "@spectrum-web-components/icons-ui/icons/sp-icon-checkmark100.js";
- import "@spectrum-web-components/icons-workflow/icons/sp-icon-alert.js";
- import textfieldStyles from "./textfield.css.js";
- import checkmarkStyles from "@spectrum-web-components/icon/src/spectrum-icon-checkmark.css.js";
-+import { isWebKit } from "@spectrum-web-components/shared";
- const textfieldTypes = ["text", "url", "tel", "email", "password"];
- export class TextfieldBase extends ManageHelpText(
-   SizedMixin(Focusable, {
-@@ -38,6 +39,7 @@ export class TextfieldBase extends ManageHelpText(
- ) {
-   constructor() {
-     super(...arguments);
-+    this._firstUpdateAfterConnected = true;
-     this.allowedKeys = "";
-     this.focused = false;
-     this.invalid = false;
-@@ -54,6 +56,13 @@ export class TextfieldBase extends ManageHelpText(
+@@ -54,6 +54,12 @@ export class TextfieldBase extends ManageHelpText(
      this._value = "";
      this.quiet = false;
      this.required = false;
@@ -26,139 +10,36 @@ index 6cdfaba..a3f08cb 100644
 +      input: this.handleInput.bind(this),
 +      change: this.handleChange.bind(this),
 +      focus: this.onFocus.bind(this),
-+      blur: this.onBlur.bind(this),
-+      submit: this.handleInputSubmit.bind(this)
++      blur: this.onBlur.bind(this)
 +    };
    }
    static get styles() {
      return [textfieldStyles, checkmarkStyles];
-@@ -79,6 +88,10 @@ export class TextfieldBase extends ManageHelpText(
-     return this._value;
-   }
-   get focusElement() {
-+    var _a;
-+    if (isWebKit()) {
-+      return (_a = this._inputRef) != null ? _a : this.inputElement;
-+    }
-     return this.inputElement;
-   }
-   /**
-@@ -134,6 +147,84 @@ export class TextfieldBase extends ManageHelpText(
+@@ -134,6 +140,23 @@ export class TextfieldBase extends ManageHelpText(
    onBlur() {
      this.focused = !this.readonly && false;
    }
 +
-+  handleInputSubmit(event) {
-+    this.dispatchEvent(
-+      new Event("submit", {
-+        cancelable: true,
-+        bubbles: true
-+      })
-+    );
-+    event.preventDefault();
-+  }
-+
-+
-+  firstUpdateAfterConnected() {
-+    this._inputRef = this.inputElement;
-+    if (this.formElement) {
-+      this._formRef = this.formElement;
-+      this.formElement.addEventListener("submit", this._eventHandlers.submit);
-+      this.inputElement.addEventListener("change", this._eventHandlers["change"]);
-+      this.inputElement.addEventListener("input", this._eventHandlers["input"]);
-+      this.inputElement.addEventListener("focus", this._eventHandlers["focus"]);
-+      this.inputElement.addEventListener("blur", this._eventHandlers["blur"]);
-+    }
-+  }
-+
-+  updated(changes) {
-+    super.updated(changes);
-+    if (isWebKit() && this._firstUpdateAfterConnected) {
-+      this._firstUpdateAfterConnected = false;
-+      this.firstUpdateAfterConnected();
-+    }
-+  }
-+
-+  connectedCallback() {
-+    super.connectedCallback();
-+    if (isWebKit()) {
-+      this._firstUpdateAfterConnected = true;
-+      if (this._formRef) {
-+        const formContainer = this.shadowRoot.querySelector("#form-container");
-+        if (formContainer) {
-+          formContainer.appendChild(this._formRef);
-+          this.requestUpdate();
-+        }
-+        this._formRef = void 0;
-+      }
-+    }
++  firstUpdated() {
++    super.firstUpdated();
++    this.inputElement.addEventListener("change", this._eventHandlers["change"]);
++    this.inputElement.addEventListener("input", this._eventHandlers["input"]);
++    this.inputElement.addEventListener("focus", this._eventHandlers["focus"]);
++    this.inputElement.addEventListener("blur", this._eventHandlers["blur"]);
 +  }
 +
 +  disconnectedCallback() {
-+    var _a, _b, _c, _d;
-+    if (isWebKit()) {
-+      (_a = this._inputRef) == null ? void 0 : _a.removeEventListener(
-+        "change",
-+        this._eventHandlers["change"]
-+      );
-+      (_b = this._inputRef) == null ? void 0 : _b.removeEventListener(
-+        "input",
-+        this._eventHandlers["input"]
-+      );
-+      (_c = this._inputRef) == null ? void 0 : _c.removeEventListener(
-+        "focus",
-+        this._eventHandlers["focus"]
-+      );
-+      (_d = this._inputRef) == null ? void 0 : _d.removeEventListener(
-+        "blur",
-+        this._eventHandlers["blur"]
-+      );
-+
-+      if (this._formRef) {
-+        this._formRef.remove();
-+        this._formRef.removeEventListener(
-+          "submit",
-+          this._eventHandlers.submit
-+        );
-+      }
-+    }
++    this.inputElement.removeEventListener("change", this._eventHandlers["change"]);
++    this.inputElement.removeEventListener("input", this._eventHandlers["input"]);
++    this.inputElement.removeEventListener("focus", this._eventHandlers["focus"]);
++    this.inputElement.removeEventListener("blur", this._eventHandlers["blur"]);
 +    super.disconnectedCallback();
 +  }
 +
    renderStateIcons() {
      if (this.invalid) {
        return html`
-@@ -188,9 +279,37 @@ export class TextfieldBase extends ManageHelpText(
-         `;
-   }
-   get renderInput() {
-+    if (isWebKit()) {
-+      return html`
-+        <!-- @ts-ignore -->
-+        <div id="form-container" class="input">
-+          <form id="formWrapper" class="input">
-+            <input
-+                data-test-id="patched"
-+                type=${this.type}
-+                aria-describedby=${this.helpTextId}
-+                aria-label=${this.label || this.placeholder}
-+                aria-invalid=${ifDefined(this.invalid || void 0)}
-+                class="input"
-+                maxlength=${ifDefined(this.maxlength > -1 ? this.maxlength : void 0)}
-+                minlength=${ifDefined(this.minlength > -1 ? this.minlength : void 0)}
-+                pattern=${ifDefined(this.pattern)}
-+                placeholder=${this.placeholder}
-+                .value=${live(this.displayValue)}
-+                ?disabled=${this.disabled}
-+                ?required=${this.required}
-+                ?readonly=${this.readonly}
-+                autocomplete=${ifDefined(this.autocomplete)}
-+            />
-+          </form>
-+        </div>
-+      `;
-+    }
-+
+@@ -191,6 +214,7 @@ export class TextfieldBase extends ManageHelpText(
      return html`
              <!-- @ts-ignore -->
              <input
@@ -166,23 +47,14 @@ index 6cdfaba..a3f08cb 100644
                  type=${this.type}
                  aria-describedby=${this.helpTextId}
                  aria-label=${this.label || this.appliedLabel || this.placeholder}
-@@ -253,6 +372,10 @@ export class TextfieldBase extends ManageHelpText(
-     return validity;
-   }
- }
-+
-+__decorateClass([
-+  query("#formWrapper")
-+], TextfieldBase.prototype, "formElement", 2);
- __decorateClass([
-   state()
- ], TextfieldBase.prototype, "appliedLabel", 2);
-@@ -263,7 +386,7 @@ __decorateClass([
-   property({ type: Boolean, reflect: true })
- ], TextfieldBase.prototype, "focused", 2);
- __decorateClass([
--  query(".input:not(#sizer)")
-+  query("input, input.input:not(#sizer), textarea.input:not(#sizer)")
- ], TextfieldBase.prototype, "inputElement", 2);
- __decorateClass([
-   property({ type: Boolean, reflect: true })
+@@ -206,10 +230,6 @@ export class TextfieldBase extends ManageHelpText(
+                 pattern=${ifDefined(this.pattern)}
+                 placeholder=${this.placeholder}
+                 .value=${live(this.displayValue)}
+-                @change=${this.handleChange}
+-                @input=${this.handleInput}
+-                @focus=${this.onFocus}
+-                @blur=${this.onBlur}
+                 ?disabled=${this.disabled}
+                 ?required=${this.required}
+                 ?readonly=${this.readonly}
