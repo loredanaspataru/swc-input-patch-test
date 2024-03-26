@@ -1,0 +1,50 @@
+diff --git a/node_modules/@spectrum-web-components/search/src/Search.dev.js b/node_modules/@spectrum-web-components/search/src/Search.dev.js
+index 060bec9..26c64ed 100644
+--- a/node_modules/@spectrum-web-components/search/src/Search.dev.js
++++ b/node_modules/@spectrum-web-components/search/src/Search.dev.js
+@@ -29,6 +29,11 @@ export class Search extends Textfield {
+     this.action = "";
+     this.label = "Search";
+     this.placeholder = "Search";
++    this._eventHandlers = {
++      submit: this.handleSubmit.bind(this),
++      reset: this.reset.bind(this),
++      keydown: this.handleKeydown.bind(this)
++    };
+   }
+   static get styles() {
+     return [...super.styles, searchStyles];
+@@ -69,12 +74,10 @@ export class Search extends Textfield {
+   renderField() {
+     return html`
+             <form
++                data-test-id="patched"
+                 action=${this.action}
+                 id="form"
+                 method=${ifDefined(this.method)}
+-                @submit=${this.handleSubmit}
+-                @reset=${this.reset}
+-                @keydown=${this.handleKeydown}
+             >
+                 <sp-icon-magnify
+                     class="icon magnifier icon-workflow icon-search"
+@@ -96,7 +99,19 @@ export class Search extends Textfield {
+   firstUpdated(changedProperties) {
+     super.firstUpdated(changedProperties);
+     this.inputElement.setAttribute("type", "search");
++
++    this.form.addEventListener("submit", this._eventHandlers["submit"]);
++    this.form.addEventListener("reset", this._eventHandlers["reset"]);
++    this.form.addEventListener("keydown", this._eventHandlers["keydown"]);
+   }
++
++  disconnectedCallback() {
++    this.form.removeEventListener("submit", this._eventHandlers["submit"]);
++    this.form.removeEventListener("reset", this._eventHandlers["reset"]);
++    this.form.removeEventListener("keydown", this._eventHandlers["keydown"]);
++    super.disconnectedCallback();
++  }
++
+   willUpdate() {
+     this.multiline = false;
+   }
