@@ -1,20 +1,21 @@
 diff --git a/node_modules/@spectrum-web-components/search/src/Search.dev.js b/node_modules/@spectrum-web-components/search/src/Search.dev.js
-index 060bec9..26c64ed 100644
+index 060bec9..2841810 100644
 --- a/node_modules/@spectrum-web-components/search/src/Search.dev.js
 +++ b/node_modules/@spectrum-web-components/search/src/Search.dev.js
-@@ -29,6 +29,11 @@ export class Search extends Textfield {
+@@ -29,6 +29,12 @@ export class Search extends Textfield {
      this.action = "";
      this.label = "Search";
      this.placeholder = "Search";
-+    this._eventHandlers = {
++    this._formEventHandlers = {
 +      submit: this.handleSubmit.bind(this),
 +      reset: this.reset.bind(this),
 +      keydown: this.handleKeydown.bind(this)
 +    };
++    this._firstUpdateAfterConnected = false;
    }
    static get styles() {
      return [...super.styles, searchStyles];
-@@ -69,12 +74,10 @@ export class Search extends Textfield {
+@@ -69,12 +75,10 @@ export class Search extends Textfield {
    renderField() {
      return html`
              <form
@@ -28,20 +29,41 @@ index 060bec9..26c64ed 100644
              >
                  <sp-icon-magnify
                      class="icon magnifier icon-workflow icon-search"
-@@ -96,7 +99,19 @@ export class Search extends Textfield {
-   firstUpdated(changedProperties) {
+@@ -97,6 +101,40 @@ export class Search extends Textfield {
      super.firstUpdated(changedProperties);
      this.inputElement.setAttribute("type", "search");
-+
-+    this.form.addEventListener("submit", this._eventHandlers["submit"]);
-+    this.form.addEventListener("reset", this._eventHandlers["reset"]);
-+    this.form.addEventListener("keydown", this._eventHandlers["keydown"]);
    }
 +
++  firstUpdateAfterConnected() {
++    this.formAbortController = new AbortController();
++    const { signal } = this.formAbortController;
++
++    this.form.addEventListener("submit", this._formEventHandlers["submit"], { signal });
++    this.form.addEventListener("reset", this._formEventHandlers["reset"], { signal });
++    this.form.addEventListener("keydown", this._formEventHandlers["keydown"], { signal });
++  }
++
++  updated(changes) {
++    super.updated(changes);
++    // Adding this here instead of firstUpdated because we want to make sure
++    // this is called again on the first update after a previous disconnect 
++    // since firstUpdated is called only once
++    if (this._firstUpdateAfterConnected) {
++      this._firstUpdateAfterConnected = false;
++      this.firstUpdateAfterConnected();
++    }
++  }
++
++  connectedCallback() {
++    super.connectedCallback();
++
++    this._firstUpdateAfterConnected = true;
++    this.requestUpdate();
++  }
++
 +  disconnectedCallback() {
-+    this.form.removeEventListener("submit", this._eventHandlers["submit"]);
-+    this.form.removeEventListener("reset", this._eventHandlers["reset"]);
-+    this.form.removeEventListener("keydown", this._eventHandlers["keydown"]);
++    // Cleanup all event listeners
++    this.formAbortController?.abort();
 +    super.disconnectedCallback();
 +  }
 +
