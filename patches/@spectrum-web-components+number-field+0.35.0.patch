@@ -1,0 +1,12 @@
+diff --git a/node_modules/@spectrum-web-components/number-field/src/NumberField.dev.js b/node_modules/@spectrum-web-components/number-field/src/NumberField.dev.js
+index 34bb64e..796906c 100644
+--- a/node_modules/@spectrum-web-components/number-field/src/NumberField.dev.js
++++ b/node_modules/@spectrum-web-components/number-field/src/NumberField.dev.js
+@@ -506,6 +506,7 @@ export class NumberField extends TextfieldBase {
+     this.addEventListener("keydown", this.handleKeydown);
+   }
+   updated(changes) {
++    super.updated(changes);
+     if (changes.has("min") || changes.has("formatOptions")) {
+       let inputMode = "numeric";
+       const hasNegative = typeof this.min !== "undefined" && this.min < 0;
